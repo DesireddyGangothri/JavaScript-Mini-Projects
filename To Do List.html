@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <!-- 
+    1.closet():
+    button.closest('li'); Find the closest <li> (the parent of the button)
+    button.parentElement; returns parent element(span) of button if u want to get grand parent element again apply parentElement as below
+    button.parentElement.parentElement;returns grandparent(li) of button 
+    2.if (newText !== null && newText.trim() !== '') = if(newText!=="") both staements checks whether user enetered data or not
+
+    -->
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background: url("../Assets/images/design.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding: 10px;
+            /* without padding margin-top:100px is not working properly..why? */
+        }
+
+        .todo-app {
+            width: 100%;
+            max-width: 700px;
+            background-color: #fff;
+            /* margin :100px auto 20px; */
+            margin-inline: auto;
+            margin-top: 100px;
+            padding: 40px 30px 70px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gold;
+        }
+
+        .todo-app h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #edeef0;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            border: 0;
+            outline: 0;
+            background-color: transparent;
+            padding-left: 10px;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            width: 100px;
+            border: 0;
+            padding: 10px;
+            background: black;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        button {
+            color: white;
+            background: black;
+            padding: 4px;
+            width: 60px;
+            margin-left: 8px;
+        }
+
+        ul li {
+
+            font-size: 17px;
+            padding: 5px;
+            border: 1px solid rgba(128, 128, 128, 0.3);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .strikethrough {
+            text-decoration: line-through;
+            color: red;
+        }
+
+        #content {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="todo-app">
+            <h2>To-Do List </h2>
+            <div class="row">
+                <input type="text" id="input-box" placeholder="Add a new Task...">
+                <button id="addTaskBtn" class="btn">Add</button>
+            </div>
+            <ul id="list-container">
+                <!-- Dynamically created list items will appear here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const listContainer = document.getElementById('list-container');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const inputBox = document.getElementById("input-box");
+
+        //Creating List dynamically
+        addTaskBtn.addEventListener('click', function () {
+            if (inputBox.value != "" && inputBox.value.trim() != '') 
+            {
+                const newTask = document.createElement('li');
+                newTask.innerHTML = `
+                <span id="content">${inputBox.value}</span>
+                <span>
+                  <button onclick="toggleDone(this)">Done</button>
+                  <button onclick="editTask(this)">Edit</button>
+                  <button onclick="deleteTask(this)">Delete</button>
+                </span>`;
+
+                console.log(newTask);
+                listContainer.appendChild(newTask);
+                inputBox.value = "";
+            }
+            else {
+                alert("Please Enter your list content");
+            }
+
+        });
+
+        // Function to delete a task (list item)
+        function deleteTask(button) {
+            const listItem = button.closest('li'); // Find the closest <li> (the parent of the button)
+            console.log(listItem);
+            listItem.remove(); // Remove the <li> from the DOM
+        }
+
+        // Function to edit a task (list item)
+        function editTask(button) {
+            console.log(button);
+            const listItem = button.closest('li'); // Find the closest <li> (the parent of the button)
+            console.log(listItem);
+            //Selecting <span id="content">${inputBox.value}</span> from li parent tag
+            const contentSpan = listItem.querySelector('span#content');
+            console.log(contentSpan.textContent);
+            const newText = prompt("Edit Task", contentSpan.textContent);
+            // Update the list item text only if user enters something
+            if (newText !== null && newText.trim() !== '') {
+                contentSpan.textContent = newText;
+            }
+        }
+
+        /*  function toggleDone(button) {
+              const listItem = button.closest('li');
+              console.log(button.parentElement.parentElement);
+             
+              // Find the span with the content ( id="content")
+              const contentSpan = listItem.querySelector('span#content');
+  
+              // Find the edit button
+              const editButton = listItem.querySelector('button[onclick^="editTask"]');
+  
+              // Toggle the 'line-through' class for the content
+              if (contentSpan.style.textDecoration === 'line-through') {
+                  // If it is already struck through, remove the line-through and re-enable the edit button
+                  contentSpan.style.textDecoration = 'none';
+                  contentSpan.style.color="blue";
+                  editButton.disabled = false; // Re-enable the edit button
+              } else {
+                  // Otherwise, apply the line-through and disable the edit button
+                  contentSpan.style.textDecoration = 'line-through';
+                  contentSpan.style.color="red";
+                  editButton.disabled = true; // Disable the edit button
+              }
+          } */
+        function toggleDone(button) {
+            const listItem = button.parentElement.parentElement;
+            listItem.classList.toggle('strikethrough');
+            const editButton = listItem.querySelector('button[onclick^="editTask"]');
+            if (listItem.classList.contains('strikethrough')) {  //contains is a method 
+                editButton.disabled = true;  // Disable the edit button if task is done
+            } else {
+                editButton.disabled = false; // Enable it if task is undone
+            }
+        }
+    </script>
+</body>
+
+</html>
