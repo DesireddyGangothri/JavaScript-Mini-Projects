@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Pay&loan Task</title>
+    <!-- Using onclick button and function
+     *Data type of whatever the number taking from user through <input type='number'> is string, while calculations we have to convert to number using eval()
+      varible.toFixed(2):This method used to show numbers after decimal point according to passed num within ()(ex:100.00)
+     *Eventhough i written last line of fn,JS first execute alert method after taking ip from user then only statments of fn executes..So if u want alert message popup has to come after execution of fn statements,means you have to place this method inside setTimeOut() with some delay
+      -->
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('../Assets/images/bank2.webp');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+            /* background-color: rgba(189, 209, 36, 0.739); */
+            background-color: rgba(0, 0, 255, 0.29);
+            width: 450px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px black;
+        }
+
+        .bal {
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center; */
+            align-items: center;
+            padding-block: 40px;
+        }
+
+        input {
+            width: 200px;
+            height: 50px;
+            text-align: center;
+            font-size: 20px;
+            border: 0;
+        }
+
+        label {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: bolder;
+        }
+
+        .pay,
+        .loan {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-around;
+            padding-block: 20px;
+        }
+
+        button {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            width: 110px;
+            border-radius: 10px;
+            padding-inline: 7px;
+        }
+
+        .pay button {
+            background-color: crimson;
+        }
+
+        .loan button {
+            background-color: green;
+        }
+
+        #msg {
+            font-size: 20px;
+            border-radius: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="bal">
+            <label for="t_bal">Total Balance</label>
+            <input type="number" id="t_bal">
+        </div>
+        <div class="pay">
+            <input type="number" id="pay-now">
+            <button onclick="paynow()" id="pay-now-btn">Pay Now</button>
+        </div>
+        <div class="loan">
+            <input type="number" id="take-loan">
+            <button onclick="takeloan()" id="take-loan-btn">Take Loan</button>
+        </div>
+        <p id="msg"></p>
+    </div>
+
+
+    <script>
+        const total_balance = document.getElementById('t_bal');
+        const pay_now = document.getElementById('pay-now');
+        const take_loan = document.getElementById('take-loan');
+        const message = document.getElementById('msg');
+        let t_bal = 1000;
+        total_balance.value = t_bal;
+
+        // Using onclick button and function
+        function paynow() {
+            let a = pay_now.value;
+            //  console.log(typeof a);
+            //  console.log(typeof t_bal );
+            if (a == '') {
+                alert("Please provide amount how much you want to Pay");
+            }
+            else {
+                // checking whether Total balance is more than paying amount or not
+                if (t_bal >= a) {
+                    t_bal = t_bal - a;
+                    console.log(t_bal);
+                    total_balance.value = t_bal.toFixed(2);
+                    pay_now.value = '';
+                    message.innerText = `${a} Rupees Paid Successfully`;
+                    message.style.color = 'white';
+                    message.style.backgroundColor = 'crimson';
+                    //Delaying 1s execution of alert popup 
+                    setTimeout(() => {
+                        alert(`${a} Rupees Paid Successfully`)
+                    }, 1000);
+                }
+
+                else {
+                    alert("There is no Sufficient Total Balance to pay");
+                    pay_now.value=" ";
+                }
+            }
+        }
+
+        function takeloan() {
+            let b = take_loan.value;
+            // Checking takeloan.value should not be empty and -ve numbers
+            if (b == '' || b<=0) {
+                // total_balance.value = t_bal;
+                alert("Please provide amount how much you want to take as Loan");
+                take_loan.value = '';
+
+            }
+            else {
+                //  console.log(typeof b);
+                //  console.log(b);
+                //  console.log(t_bal);
+                t_bal = t_bal + eval(b);
+                //  console.log(t_bal);
+                total_balance.value = t_bal.toFixed(2);
+                take_loan.value = '';
+
+                //confirmation message after adding amount
+                message.innerText = `${b} Rupees Taken Loan Successfully`;
+                message.style.color = 'white';
+                message.style.backgroundColor = 'green';
+                //asking user permission to proceed
+                alert(`Do you wanna take ${b} Rupees loan?`);
+
+            }
+        }
+
+
+        //Using addEventListner method
+        /* function updateBalance(amount, x) {
+ 
+             if (x) {
+                 if(amount==''){
+                     alert('Please Enter Amount');
+                 }
+                 else{
+                 t_bal = t_bal - amount;
+                 total_balance.value = t_bal;
+                 pay_now.value = '';
+                 alert(`${amount} Rupees Paid Successfully`);
+                 }               
+             }
+             else {
+                 if(amount==''){
+                     alert('Please Enter Amount');
+                 }
+                 else{
+                 t_bal = t_bal + eval(amount);
+                 total_balance.value = t_bal;
+                 take_loan.value = "";
+                 alert(`${amount} Rupees Taken Loan Successfully`);
+                 }
+             }
+         }
+         document.getElementById('pay-now-btn').addEventListener('click', () => {
+             updateBalance(pay_now.value, true);
+         })
+         document.getElementById('take-loan-btn').addEventListener('click', () => {
+             updateBalance(take_loan.value, false);
+         })*/
+    </script>
+</body>
+
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task</title>
+    <style>
+        form{
+            border: 2px solid lightblue;
+            background-color: lightblue;
+            border-radius: 10px;
+            box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.1); 
+            width: 400px;
+            height: 300px;
+            position: relative;
+            top: 200px;
+            left: 500px;
+        }
+        h2{
+            margin-left: 150px;
+        }
+        p{
+            margin-top: 40px;
+            margin-left: 50px;
+            font-size: 18px;
+            font-weight: 200;
+        }
+        #sendInput, #loanInput{
+            position: relative;
+            left: 50px;
+        }
+        #sendAmt, #takeAmt{
+            position: relative;
+            left: 70px;
+        }
+        #loanInput, #takeAmt{
+            position: relative;
+            top: 30px;
+        }
+        #sendInput, #sendAmt{
+            position: relative;
+            top: 10px;
+        }
+        #takeAmt{
+            width: 95px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form">
+        <h2>Payment</h2>
+        <p>Current Balance : <span id="balance">10000</span></p>
+        <input type="number" id="sendInput" placeholder="Enter amount">
+        <button type="button" onclick="sendAmount()" id="sendAmt">Send Amount</button>
+        <input type="number" id="loanInput" placeholder="Enter amount">
+        <button type="button" onclick="takeLoan()" id="takeAmt">Take Loan</button>
+        <p class="error" id="errorMessage"></p>
+    </form>
+
+    <script>
+        // Initialize balance
+        var bal = 10000;
+
+        // Send Amount function
+        function sendAmount() {
+            const sendInput = Number(document.querySelector('#sendInput').value);
+            if (sendInput > bal) {
+                // Display error if the balance is less than send amount
+                document.querySelector('#errorMessage').textContent = "Error: Insufficient balance. Please enter a lesser amount.";
+            } else {
+                // Update balance and reset input fields
+                bal = bal - sendInput;
+                document.querySelector('#balance').textContent = bal;
+                document.querySelector('#sendInput').value = "";
+                document.querySelector('#errorMessage').textContent = ""; // Clear any previous error message
+            }
+        }
+
+        // Take Loan function
+        function takeLoan() {
+            const loanInput = Number(document.querySelector('#loanInput').value);
+            if (loanInput > 0) {
+                // Update balance with loan
+                bal = bal + loanInput;
+                document.querySelector('#balance').textContent = bal;
+                document.querySelector('#loanInput').value = "";
+            }
+        }
+    </script>
+</body>
+</html> -->
