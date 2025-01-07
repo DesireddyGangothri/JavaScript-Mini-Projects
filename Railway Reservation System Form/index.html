@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Train Ticket Booking</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Train Ticket Booking</h1>
+    <form id="bookingForm">
+     <div class="details">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="trainNumber">Train Number:</label>
+        <input type="text" id="trainNumber" name="trainNumber" required>
+        <label for="from">From:</label>
+        <input type="text" id="from" name="from" required>
+        <label for="to">To:</label>
+        <input type="text" id="to" name="to" required>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required onchange="checkDate()">
+        <label for="class">Class:</label>
+        <select id="class" name="class" required>
+          <option value="AC">AC</option>
+          <option value="sleeper">Sleeper</option>
+          <option value="FirstClass">First Class</option>
+        </select>
+        <label for="reservationType">Reservation Type:</label>
+        <select id="reservationType" name="reservationType" required>
+          <option value="General">General</option>
+          <option value="Ladies">Ladies</option>
+          <option value="Person with Disability">Person with Disability</option>
+        </select>
+     </div>
+      <div class="btns">
+        <button type="button" id="previewButton">Preview</button>    
+        <button type="submit" id="submitButton">Submit</button>
+        <button type="button" id="cancelButton">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <script src="./js/script.js"></script>
+</body>
+</html>
