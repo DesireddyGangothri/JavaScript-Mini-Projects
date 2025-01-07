@@ -1,0 +1,34 @@
+.employee-form {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 400px;
+}
+
+.employee-form h2{
+    margin-left: 130px;
+    margin-bottom: 30px;
+}
+.employee-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.employee-form input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.employee-form button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.employee-form button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Form</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="employee-form">
+        <h2>Employee Form</h2>
+        <label for="employeeName">Employee Name:</label>
+        <input type="text" id="employeeName" placeholder="Enter employee name">
+        <button id="loginButton">Login</button>
+        <button id="logoutButton" disabled>Logout</button>
+        <button id="requestLeaveButton" disabled>Request Leave</button>
+        <div id="leaveRequestForm" style="display: none;">
+            <label for="leaveType">Leave Type:</label>
+            <select id="leaveType">
+                <option value="general">General Leave</option>
+                <option value="sick">Sick Leave</option>
+                <option value="casual">Casual Leave</option>
+            </select>
+            <label for="leaveDays">Number of Days:</label>
+            <input type="number" min="0" id="leaveDays" placeholder="Enter number of days">
+            <button id="submitLeaveButton">Submit</button>
+        </div>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+</html>
