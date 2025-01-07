@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealTime-Character counter</title>
+    <!-- Using DOM Properties and real time characters -->
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            align-items: center;            
+            height: 100vh;
+            background-color: rgb(207, 194, 202);
+            color: white;
+        }
+
+        .container {
+            background-color: rgb(190, 151, 179);
+            width: 450px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px;
+        }
+
+        /* textarea has resizing feature.Here we r giving our own styles */
+        .textarea {
+            resize: none;
+            width: 100%;
+            padding: 20px;
+            /* we r given width 100% then if we want to apply padding then this px value will add to the width:100% 
+             & textarea box will come out of container box.To fix this issue we will use below statement */
+            box-sizing: border-box;
+            /* This will add include padding value within 100% of width */
+            font-size: 20px;
+            font-family: sans-serif;
+        }
+
+        .counter-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            font-size: 17px;
+        }
+
+        .total-chars {
+            color: blue;
+        }
+
+        .remaining-chars {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>RealTime-Character counter</h1>
+        <textarea id="textarea" class="textarea" maxlength="100" placeholder="Please eneter your text here"></textarea>
+        <div class="counter-container">
+            <!-- At present we are not placing content 0 & 100 to the span tags.
+             Because we have to create the content dynamically using dom properties -->
+            <p>
+                Total Characters: <span id="total-chars" class="total-chars"></span>
+            </p>
+            <p>
+                Remaining Characters: <span id="remaining-chars" class="remaining-chars"></span>
+            </p>
+        </div>
+    </div>
+    <script>
+        const textarea1 = document.getElementById("textarea");
+        const totalchars1 = document.getElementById('total-chars');
+        const remainingchars1 = document.getElementById('remaining-chars');
+        textarea1.addEventListener('keyup', () => {
+            updateCounter();
+        })
+        function updateCounter() {
+            totalchars1.innerText = textarea1.value.length;
+            remainingchars1.innerText = textarea1.getAttribute('maxlength') - textarea1.value.length;
+        }
+        // we are calling fn to display staring values of counters dynamically
+        updateCounter();
+
+    </script>
+</body>
+
+</html>
