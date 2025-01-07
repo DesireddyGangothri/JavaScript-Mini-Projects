@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetching-img -api</title>
+    <!-- Shortcut :
+             image[i].setAttribute('src',d.message); = image[i].src=d.message;    
+
+
+      -->
+    <style>
+        .flex {
+            display: flex;
+            /* gap:10px; No need to give gap becuse browser is applying default margin values to an element. */
+        }
+
+        figure {
+            height: 300px;
+            /* width:300px; No need to specify width as we givec flex:1 it occupies availble space equally*/
+            background-color: aqua;
+            flex: 1;
+        }
+
+        img {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Dog Cards</h1>
+    <button id="btn-click">Fetch</button>
+    <div class="flex">
+        <figure>
+            <img class="image">
+        </figure>
+        <figure>
+            <img class="image">
+        </figure>
+        <figure>
+            <img class="image">
+        </figure>        
+    </div>
+    <div class="flex">
+        <figure>
+            <img class="image">
+        </figure>
+        <figure>
+            <img class="image">
+        </figure>
+        <figure>
+            <img class="image">
+        </figure>        
+    </div>
+    <script>
+        const btn = document.getElementById("btn-click");
+        let image = document.getElementsByClassName("image");
+        // Displaying same image in All boxes
+        /* btn.addEventListener('click',function(){
+            fetch('https://dog.ceo/api/breeds/image/random')
+            .then(r=>r.json())
+            .then(d=>{
+                for(let i=0;i<image.length;i++)    
+                image[i].setAttribute('src',d.message);    
+        })
+        })*/
+        // Displaying different images in each box
+        btn.addEventListener('click', () => {
+            for (let i = 0; i < image.length; i++) {
+                fetch('https://dog.ceo/api/breeds/image/random')
+                    .then(r => r.json())
+                    .then(d => {
+                        image[i].src = d.message;
+                    })
+            }
+        })
+    </script>
+</body>
+
+</html>
